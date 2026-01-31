@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class DroneCamera : MonoBehaviour
 {
-    public Transform followPoint;
+    public Transform turretFollowPoint, orbitFollowPoint;
     public Transform droneCenter;
+    public bool orbiting = false;
+
+    private Transform followPoint;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,10 +16,16 @@ public class DroneCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(followPoint != null)
+        if(orbiting)
         {
-            transform.position = Vector3.Lerp(transform.position, followPoint.position, 0.75f);
+            followPoint = orbitFollowPoint;
             transform.LookAt(droneCenter);
         }
+        else
+        {
+            followPoint = turretFollowPoint;
+            transform.forward = turretFollowPoint.forward;
+        }
+        transform.position = Vector3.Lerp(transform.position, followPoint.position, 0.75f);
     }
 }

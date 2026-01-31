@@ -113,22 +113,13 @@ void loop() {
         esp_now_send(broadcastAddress1, (uint8_t *) &test, sizeof(test));
         break;
       case '4':
-        test.x = 1;
-        esp_now_send(broadcastAddress2, (uint8_t *) &test, sizeof(test));
+        test.x = 2;
+        esp_now_send(broadcastAddress1, (uint8_t *) &test, sizeof(test));
         break;
       case '5':
-        test.x = 0;
-        esp_now_send(broadcastAddress2, (uint8_t *) &test, sizeof(test));
+        test.x = 3;
+        esp_now_send(broadcastAddress1, (uint8_t *) &test, sizeof(test));
         break;
-      case '6':
-        test.x = 1;
-        esp_now_send(broadcastAddress3, (uint8_t *) &test, sizeof(test));
-        break;
-      case '7':
-        test.x = 0;
-        esp_now_send(broadcastAddress3, (uint8_t *) &test, sizeof(test));
-        break;
- 
       default:
         // Code to execute if none of the cases match
         break;
