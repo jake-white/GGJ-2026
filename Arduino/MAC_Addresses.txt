@@ -1,0 +1,34 @@
+Arduino Mac Addresses:
+
+uint8_t broadcastAddress1[] = {0xD8, 0xBF, 0xC0, 0xC2, 0x36, 0x49};
+uint8_t broadcastAddress2[] = {0xF4, 0xCF, 0xA2, 0xFE, 0x6B, 0xD1};
+uint8_t broadcastAddress3[] = {0x3C, 0xE9, 0x0E, 0xCB, 0x95, 0xBF};
+uint8_t broadcastAddress4[] = {0x84, 0xF3, 0xEB, 0x42, 0xAA, 0x8D};
+uint8_t broadcastAddress5[] = {0x84, 0x0D, 0x8E, 0x87, 0x89, 0x20};
+uint8_t broadcastAddress6[] = {0xCC, 0x50, 0xE3, 0x65, 0x75, 0x6D};
+uint8_t broadcastAddress7[] = {0xA0, 0x20, 0xA6, 0x1F, 0x58, 0xBC};
+
+
+
+
+Cube light grouping
+
+1-30	Vertical 1
+31-60	Top 1
+61-90	Vertical 2
+91-120	Bottom 1
+121-150 Bottom 4
+151-180 Vertical 4
+181-210 Top 3
+211-240 Vertical 2
+241-270 Bottom 3
+271-300 Top 4
+301-330 Top 2
+331-360 Bottom 2
+
+X+	V1,T1,V2,B1
+X-  V4,T3,V2,B3
+Y+	B2,V2,V3,T2
+Y-	B4,V1,V4,T4
+Z+	V1,V2,V3,V4
+Z-	B1,B2,B3,B4

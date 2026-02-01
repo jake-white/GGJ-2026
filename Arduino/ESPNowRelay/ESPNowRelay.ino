@@ -17,14 +17,14 @@ bool buttonDown=false;
 
 #define STATUS_LED BUILTIN_LED
 
-
-
-
 // REPLACE WITH RECEIVER MAC Address
 uint8_t broadcastAddress1[] = {0xD8, 0xBF, 0xC0, 0xC2, 0x36, 0x49};
 uint8_t broadcastAddress2[] = {0xF4, 0xCF, 0xA2, 0xFE, 0x6B, 0xD1};
 uint8_t broadcastAddress3[] = {0x3C, 0xE9, 0x0E, 0xCB, 0x95, 0xBF};
-
+uint8_t broadcastAddress4[] = {0x84, 0xF3, 0xEB, 0x42, 0xAA, 0x8D};
+uint8_t broadcastAddress5[] = {0x84, 0x0D, 0x8E, 0x87, 0x89, 0x20};
+uint8_t broadcastAddress6[] = {0xCC, 0x50, 0xE3, 0x65, 0x75, 0x6D};
+uint8_t broadcastAddress7[] = {0xA0, 0x20, 0xA6, 0x1F, 0x58, 0xBC};
 
 // Structure example to send data
 // Must match the receiver structure
@@ -34,8 +34,6 @@ typedef struct test_struct {
 
 // Create a struct_message called test to store variables to be sent
 test_struct test;
-
-
 
 // Callback when data is sent
 void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus) {
@@ -53,7 +51,6 @@ void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus) {
   }
 }
 
- 
 void setup() {
   // Init Serial Monitor
   Serial.begin(115200);
@@ -80,6 +77,11 @@ void setup() {
   // Register peer
   esp_now_add_peer(broadcastAddress1, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
   esp_now_add_peer(broadcastAddress2, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
+  esp_now_add_peer(broadcastAddress3, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
+  esp_now_add_peer(broadcastAddress4, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
+  esp_now_add_peer(broadcastAddress5, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
+  esp_now_add_peer(broadcastAddress6, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
+  esp_now_add_peer(broadcastAddress7, ESP_NOW_ROLE_SLAVE, 1, NULL, 0);
 
  
 }
@@ -94,31 +96,134 @@ void loop() {
     // Convert the string to an integer
     //int boardNum = receivedString.charAt(0) - '0';
     //int boardStatus = receivedString.charAt(1) - '0';
-
-
-      
+  
     switch (receivedChar) {
-      case '0':
-        digitalWrite(BUILTIN_LED, 1); // Start with the light off  
+      
+      case 'a':
+        digitalWrite(BUILTIN_LED, 0); //Built in LED On
         break;
-      case '1':
-        digitalWrite(BUILTIN_LED, 0);
+	    case 'b':
+        digitalWrite(BUILTIN_LED, 1); //Built in LED OFF  
         break;
-      case '2':
-        test.x = 1;
+	    case 'c':
+        test.x = 3;
         esp_now_send(broadcastAddress1, (uint8_t *) &test, sizeof(test));
         break;
-      case '3':
-        test.x = 0;
-        esp_now_send(broadcastAddress1, (uint8_t *) &test, sizeof(test));
-        break;
-      case '4':
+	    case 'd':
         test.x = 2;
         esp_now_send(broadcastAddress1, (uint8_t *) &test, sizeof(test));
         break;
-      case '5':
-        test.x = 3;
+	    case 'e':
+        test.x = 1;
         esp_now_send(broadcastAddress1, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'f':
+        test.x = 0;
+        esp_now_send(broadcastAddress1, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'g':
+        test.x = 3;
+        esp_now_send(broadcastAddress2, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'h':
+        test.x = 2;
+        esp_now_send(broadcastAddress2, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'i':
+        test.x = 1;
+        esp_now_send(broadcastAddress2, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'j':
+        test.x = 0;
+        esp_now_send(broadcastAddress2, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'k':
+        test.x = 3;
+        esp_now_send(broadcastAddress3, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'l':
+        test.x = 2;
+        esp_now_send(broadcastAddress3, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'm':
+        test.x = 1;
+        esp_now_send(broadcastAddress3, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'n':
+        test.x = 0;
+        esp_now_send(broadcastAddress3, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'o':
+        test.x = 3;
+        esp_now_send(broadcastAddress4, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'p':
+        test.x = 2;
+        esp_now_send(broadcastAddress4, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'q':
+        test.x = 1;
+        esp_now_send(broadcastAddress4, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'r':
+        test.x = 0;
+        esp_now_send(broadcastAddress4, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 's':
+        test.x = 3;
+        esp_now_send(broadcastAddress5, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 't':
+        test.x = 2;
+        esp_now_send(broadcastAddress5, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'u':
+        test.x = 1;
+        esp_now_send(broadcastAddress5, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'v':
+        test.x = 0;
+        esp_now_send(broadcastAddress5, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'w':
+        test.x = 3;
+        esp_now_send(broadcastAddress6, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'x':
+        test.x = 2;
+        esp_now_send(broadcastAddress6, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'y':
+        test.x = 1;
+        esp_now_send(broadcastAddress6, (uint8_t *) &test, sizeof(test));
+        break;
+	    case 'z':
+        test.x = 0;
+        esp_now_send(broadcastAddress6, (uint8_t *) &test, sizeof(test));
+        break;
+      case '0':
+        test.x = 0;
+        esp_now_send(broadcastAddress7, (uint8_t *) &test, sizeof(test)); 
+        break;
+      case '1':
+        test.x = 1;
+        esp_now_send(broadcastAddress7, (uint8_t *) &test, sizeof(test)); 
+        break;
+      case '2':
+        test.x = 2;
+        esp_now_send(broadcastAddress7, (uint8_t *) &test, sizeof(test));
+        break;
+      case '3':
+        test.x = 3;
+        esp_now_send(broadcastAddress7, (uint8_t *) &test, sizeof(test));
+        break;
+      case '4':
+        test.x = 4;
+        esp_now_send(broadcastAddress7, (uint8_t *) &test, sizeof(test));
+        break;
+      case '5':
+        test.x = 5;
+        esp_now_send(broadcastAddress7, (uint8_t *) &test, sizeof(test));
         break;
       default:
         // Code to execute if none of the cases match

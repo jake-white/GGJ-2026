@@ -14,7 +14,21 @@
 #define BRIGHTNESS  255
 #define LED_TYPE    WS2812
 #define COLOR_ORDER GRB
+#define SECTION_NUM 30
 CRGB leds[NUM_LEDS];
+
+#define B1  0
+#define T1  60
+#define V3  210
+#define V4  150
+#define V2  30
+#define T2  300
+#define T3  180
+#define T4  270
+#define V1  90
+#define B2  330
+#define B3  240
+#define B4  120
 
 #define UPDATES_PER_SECOND 100
 
@@ -41,6 +55,7 @@ CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
 CRGBPalette16 RedYellow;
 CRGBPalette16 YellowRed;
+CRGBPalette16 BlackOut;
 uint8_t state = 0;
 uint8_t Target = 155;
 extern CRGBPalette16 myRedWhiteBluePalette;
@@ -61,9 +76,9 @@ test_struct myData;
 void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
   memcpy(&myData, incomingData, sizeof(myData));
 
+    state = myData.x;
 
-
-    switch (myData.x) {
+    /*switch (myData.x) {
       case 0:
         state = 0;
         //fill_solid( PaletteLQ, 16, CRGB::Black);
@@ -90,7 +105,7 @@ void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
         // Code to execute if none of the cases match
         Serial.println("received nothing");
         break;
-      }
+      }*/
 
 
 }
@@ -107,10 +122,29 @@ void setup() {
     currentPalette = OceanColors_p;
     currentBlending = NOBLEND;
     
-    state = 1;
+    state = 0;
 
     SetupRedAndYellowStripedPalette();
     SetupYellowAndRedStripedPalette();
+    SetupBlackOut();
+
+    WiFi.mode(WIFI_STA);
+     //wifi_set_macaddr(STATION_IF, &newMACAddress[0]);
+    //Serial.print("[NEW] ESP8266 Board MAC Address:  ");
+   // Serial.println(WiFi.macAddress());
+    Serial.println(WiFi.macAddress());
+    WiFi.disconnect();
+    // Init ESP-NOW
+  if (esp_now_init() != 0) {
+    Serial.println("Error initializing ESP-NOW");
+    return;
+  }
+  
+  // Once ESPNow is successfully Init, we will register for recv CB to
+  // get recv packer info
+  esp_now_set_self_role(ESP_NOW_ROLE_SLAVE);
+  esp_now_register_recv_cb(OnDataRecv);
+
 }
 
 
@@ -121,20 +155,31 @@ void loop()
     
     switch (state) {
       case 0:
-        currentPalette = OceanColors_p;
+        currentPalette = OceanColors_p; // Blue Shielded Status
         startIndex = startIndex + 1; /* motion speed */
+        FillLEDsFromPaletteColors( startIndex);
         break;
       case 1:
-        SwapColor();
+        currentPalette = ForestColors_p; // Blue Shielded Status
+        startIndex = startIndex + 1; /* motion speed */
+        FillLEDsFromPaletteColors( startIndex);
         break;
       case 2:
         SwapColor();
+        WarningAxis_X( startIndex); //Light X Axis
         break;
       case 3:
         SwapColor();
+        WarningAxis_Y( startIndex); //Light Y Axis
         break;
       case 4:
         SwapColor();
+        WarningAxis_Z( startIndex); //Light Z Axis
+        break;
+      case 5:
+        currentPalette = BlackOut;
+        startIndex = startIndex + 1; /* motion speed */
+        FillLEDsFromPaletteColors( startIndex);
         break;
       default:
         // Code to execute if none of the cases match
@@ -142,7 +187,7 @@ void loop()
         break;
       }
     
-    FillLEDsFromPaletteColors( startIndex);
+    
     
     FastLED.show();
     FastLED.delay(1000 / UPDATES_PER_SECOND);
@@ -155,6 +200,77 @@ void FillLEDsFromPaletteColors( uint8_t colorIndex)
         leds[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
         colorIndex += 3;
     }
+}
+
+void WarningAxis_X( uint8_t colorIndex)
+{
+    for( int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int j = B4; j < B4+SECTION_NUM; j++) {
+        leds[j] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int k = B2; k < B2+SECTION_NUM; k++) {
+        leds[k] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int l = T4; l < T4+SECTION_NUM; l++) {
+        leds[l] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int m = T2; m < T2+SECTION_NUM; m++) {
+        leds[m] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+}
+void WarningAxis_Y( uint8_t colorIndex)
+{
+    for( int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int j = B1; j < B1+SECTION_NUM; j++) {
+        leds[j] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int k = B3; k < B3+SECTION_NUM; k++) {
+        leds[k] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int l = T1; l < T1+SECTION_NUM; l++) {
+        leds[l] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int m = T3; m < T3+SECTION_NUM; m++) {
+        leds[m] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+}
+void WarningAxis_Z( uint8_t colorIndex)
+{
+    for( int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int j = V1; j < V1+SECTION_NUM; j++) {
+        leds[j] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int k = V2; k < V2+SECTION_NUM; k++) {
+        leds[k] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int l = V3; l < V3+SECTION_NUM; l++) {
+        leds[l] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    for( int m = V4; m < V4+SECTION_NUM; m++) {
+        leds[m] = ColorFromPalette( BlackOut, colorIndex, brightness, currentBlending);
+        colorIndex += 3;
+    }
+    
 }
 
 
@@ -179,17 +295,6 @@ void SwapColor()
     }
 }
 
-
-
-
-
-// This function fills the palette with totally random colors.
-void SetupTotallyRandomPalette()
-{
-    for( int i = 0; i < 16; i++) {
-        currentPalette[i] = CHSV( random8(), 255, random8());
-    }
-}
 
 // This function sets up a palette of black and white stripes,
 // using code.  Since the palette is effectively an array of
@@ -226,48 +331,11 @@ void SetupYellowAndRedStripedPalette()
     YellowRed[14] = CRGB::Yellow;
 }
 
-// This function sets up a palette of purple and green stripes.
-void SetupPurpleAndGreenPalette()
+void SetupBlackOut()
 {
-    CRGB purple = CHSV( HUE_PURPLE, 255, 255);
-    CRGB green  = CHSV( HUE_GREEN, 255, 255);
-    CRGB black  = CRGB::Black;
-    
-    currentPalette = CRGBPalette16(
-                                   green,  green,  black,  black,
-                                   purple, purple, black,  black,
-                                   green,  green,  black,  black,
-                                   purple, purple, black,  black );
+    // 'black out' all 16 palette entries...
+    fill_solid( BlackOut, 16, CRGB::Black);
 }
-
-
-// This example shows how to set up a static color palette
-// which is stored in PROGMEM (flash), which is almost always more
-// plentiful than RAM.  A static PROGMEM palette like this
-// takes up 64 bytes of flash.
-const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM =
-{
-    CRGB::Red,
-    CRGB::Gray, // 'white' is too bright compared to red and blue
-    CRGB::Blue,
-    CRGB::Black,
-    
-    CRGB::Red,
-    CRGB::Gray,
-    CRGB::Blue,
-    CRGB::Black,
-    
-    CRGB::Red,
-    CRGB::Red,
-    CRGB::Gray,
-    CRGB::Gray,
-    CRGB::Blue,
-    CRGB::Blue,
-    CRGB::Black,
-    CRGB::Black
-};
-
-
 
 // Additionl notes on FastLED compact palettes:
 //
