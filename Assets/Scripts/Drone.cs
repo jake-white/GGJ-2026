@@ -58,7 +58,8 @@ public class Drone : SingletonBehavior<Drone>
         RaycastHit hit;
         if(Physics.Raycast(path, out hit, 1000, trackedObjectives))
         {
-            return hit.collider.GetComponentInParent<TrackedObjective>();
+            TrackedObjective obj = hit.collider.GetComponentInParent<TrackedObjective>();
+            return obj;
         }
         return null;
     }
@@ -68,6 +69,11 @@ public class Drone : SingletonBehavior<Drone>
         if(other.tag == "ObjectiveCollider")
         {
             other.GetComponentInParent<TrackedObjective>().EnterCollider();
+        }
+
+        if (other.tag == "MothershipCollider")
+        {
+            other.GetComponentInParent<MothershipAxisCollider>().EnterCollider();
         }
     }
 

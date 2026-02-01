@@ -7,9 +7,13 @@ public class TrackedHoop : TrackedObjective
 
     public override void FlyThrough()
     {
-        base.FlyThrough();
-        crater.EnableBombing();
-        Debug.Log("Flew through hoop!");
+        if (!flownThrough)
+        {
+            base.FlyThrough();
+            crater.EnableBombing();
+            Debug.Log("Flew through hoop!");
+            flownThrough = true;
+        }
     }
 
     public override void EnterCollider()

@@ -12,7 +12,11 @@ public class TrackedCrater : TrackedObjective
     }
     public void GetBombed()
     {
-        if (state == CraterState.Waiting) state = CraterState.Destroyed;
-        building.SetActive(false);
+        if (state == CraterState.Ready)
+        {
+            state = CraterState.Destroyed;
+            building.SetActive(false);
+            SequenceManager.Instance.CraterDestroyed(this);
+        }
     }
 }

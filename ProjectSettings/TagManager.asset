@@ -8,6 +8,7 @@ TagManager:
   - BombCollider
   - ObjectiveCollider
   - Laser
+  - MothershipCollider
   layers:
   - Default
   - TransparentFX

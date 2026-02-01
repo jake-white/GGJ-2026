@@ -7,7 +7,10 @@ public class OptitrackConstellationManager : MonoBehaviour
 {
     // ID 1 reserved for drone
     // ID 2 reserved for landing pad
+
+    // ID 20 for mothership
     public OptitrackRigidBody landingPad;
+    public OptitrackRigidBody mothership;
     public List<BombingObjective> objectives;
     public TrackedHoop hoopPrefab;
     public TrackedCrater craterPrefab;
@@ -25,6 +28,7 @@ public class OptitrackConstellationManager : MonoBehaviour
             crater.transform.position = poolingPoint.position;
             crater.GetComponent<OptitrackRigidBody>().RigidBodyId = objective.CraterID;
             hoop.crater = crater;
+            SequenceManager.Instance.cratersToDestroy.Add(crater);
         }
     }
 
