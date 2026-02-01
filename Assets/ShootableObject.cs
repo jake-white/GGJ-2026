@@ -7,6 +7,7 @@ public class ShootableObject : MonoBehaviour
         if(other.tag == "Laser")
         {
             Instantiate(FXManager.Instance.explosion, transform.position, Quaternion.identity);
+            SequenceManager.Instance.EnemyDefeated();
             GameObject.Destroy(gameObject);
             GameObject.Destroy(other.gameObject);
         }

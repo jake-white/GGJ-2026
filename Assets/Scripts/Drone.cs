@@ -1,4 +1,3 @@
-using CollabXR;
 using UnityEngine;
 
 public class Drone : SingletonBehavior<Drone>
@@ -23,7 +22,6 @@ public class Drone : SingletonBehavior<Drone>
         TrackedObjective potentialObjective = ObjectiveIntersected();
         if (potentialObjective != null)
         {
-            Debug.Log(potentialObjective.name);
             potentialObjective.FlyThrough();
         }
         float distanceMovedThisFrame = Vector3.Distance(lastPosition, currentPosition)/Time.deltaTime;

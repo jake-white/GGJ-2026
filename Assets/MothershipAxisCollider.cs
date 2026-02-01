@@ -18,7 +18,6 @@ public class MothershipAxisCollider : TrackedObjective
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Hit by {other.name}");
         if (vulnerable && other.tag == "Laser" && hp > 0)
         {
             Instantiate(FXManager.Instance.explosion, transform.position, Quaternion.identity);
@@ -74,7 +73,6 @@ public class MothershipAxisCollider : TrackedObjective
 
     public void RestoreHP()
     {
-        Debug.Log("Restoring HP");
         hp = 5;
         vulnerable = false;
         visual.enabled = true;

@@ -33,7 +33,6 @@ public class TrackedCrater : TrackedObjective
 
     public void GetBombed()
     {
-        Debug.Log("Trying to bomb!");
         if (state == CraterState.Ready)
         {
             line.enabled = false;

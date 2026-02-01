@@ -1,4 +1,3 @@
-using CollabXR;
 using UnityEngine;
 
 public class FXManager : SingletonBehavior<FXManager>

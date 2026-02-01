@@ -1,4 +1,3 @@
-using CollabXR;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +33,6 @@ public class Mothership : SingletonBehavior<Mothership>
 
     public void FlyThroughAxis(MothershipAxisCollider collider)
     {
-        Debug.Log($"{collider.gameObject.name}, {collider.axis}");
         if (state == MotherState.ShieldsBroken)
         {
             if (collider.axis != nextExpectedAxis)
@@ -60,7 +58,6 @@ public class Mothership : SingletonBehavior<Mothership>
     {
         if (nextExpectedAxis == MothershipAxis.None)
         {
-            Debug.Log("Axis disabled: " + axis);
             nextExpectedAxis = axis;
             switch (axis)
             {
@@ -117,6 +114,7 @@ public class Mothership : SingletonBehavior<Mothership>
             state = MotherState.Dead;
             SequenceManager.Instance.MothershipDestroyed();
             ArduinoSend.Instance.TriggerMothershipMode(5);
+            AudioManager.Instance.QueueCommanderVoice(0);
         }
         else
         {
