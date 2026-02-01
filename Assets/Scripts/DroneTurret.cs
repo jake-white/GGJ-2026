@@ -3,9 +3,10 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class DroneTurret : MonoBehaviour
 {
-    public LineRenderer leftLaser, rightLaser;
     public Transform leftLaserOrigin, rightLaserOrigin;
     public GameObject laserPrefab;
+    public float projectileSpeed = 10.0f;
+    public float projectileInterval = 0.5f;
     private Ray currentAim;
 
     bool leftFiring, rightFiring;
@@ -21,11 +22,6 @@ public class DroneTurret : MonoBehaviour
     {
         currentAim = r;
         Debug.DrawRay(currentAim.origin, currentAim.direction * 100, Color.red);
-        leftLaser.SetPosition(0, leftLaserOrigin.position);
-        leftLaser.SetPosition(1, currentAim.origin + currentAim.direction * 10);
-
-        rightLaser.SetPosition(0, rightLaserOrigin.position);
-        rightLaser.SetPosition(1, currentAim.origin + currentAim.direction * 10);
     }
 
     public void ActivateTurret(InteractorHandedness handedness)
@@ -58,14 +54,14 @@ public class DroneTurret : MonoBehaviour
     {
         bool isFiring = left ? leftFiring : rightFiring;
         float lastFire = left ? lastLeftFire : lastRightFire;
-        LineRenderer laser = left ? leftLaser : rightLaser;
+        Transform origin = left ? leftLaserOrigin : rightLaserOrigin;
 
         bool fireNow = false;
         float timeSince = Time.time - lastFire;
 
         if (isFiring)
         {
-            if (timeSince > 0.5)
+            if (timeSince > projectileInterval)
             {
                 fireNow = true;
             }
@@ -76,6 +72,9 @@ public class DroneTurret : MonoBehaviour
         {
             Debug.Log("Fire now!");
             GameObject newProjectile = Instantiate(laserPrefab);
+            newProjectile.transform.position = origin.position;
+            newProjectile.transform.forward = currentAim.direction;
+            newProjectile.GetComponent<Rigidbody>().linearVelocity = currentAim.direction * projectileSpeed;
             newLastFire = Time.time;
         }
     }
