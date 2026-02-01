@@ -672,7 +672,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.51063544, g: 0.5715951, b: 0.8018868, a: 1}
-  m_Intensity: 0.74
+  m_Intensity: 0.92
   m_Range: 6.02
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -735,7 +735,7 @@ Transform:
   m_GameObject: {fileID: 1862050356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.79, y: 1.676, z: -0.026}
+  m_LocalPosition: {x: 0.566, y: 1.676, z: -0.026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
