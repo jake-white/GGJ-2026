@@ -9,19 +9,21 @@ public class OptitrackConstellationManager : MonoBehaviour
     // ID 2 reserved for landing pad
     public OptitrackRigidBody landingPad;
     public List<BombingObjective> objectives;
-    public GameObject hoopPrefab, craterPrefab;
+    public TrackedHoop hoopPrefab;
+    public TrackedCrater craterPrefab;
     public Transform poolingPoint;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         foreach (BombingObjective objective in objectives)
         {
-            GameObject hoop = Instantiate(hoopPrefab);
+            TrackedHoop hoop = Instantiate(hoopPrefab);
             hoop.transform.position = poolingPoint.position;
             hoop.GetComponent<OptitrackRigidBody>().RigidBodyId = objective.HoopID;
-            GameObject crater = Instantiate(craterPrefab);
+            TrackedCrater crater = Instantiate(craterPrefab);
             crater.transform.position = poolingPoint.position;
             crater.GetComponent<OptitrackRigidBody>().RigidBodyId = objective.CraterID;
+            hoop.crater = crater;
         }
     }
 

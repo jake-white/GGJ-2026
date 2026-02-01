@@ -5,6 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 public class CabinetControls : MonoBehaviour
 {
     public Camera droneCam;
+    public DroneTurret turret;
     public LineRenderer gunLaser, droneLaser;
     public RectTransform reticle;
 
@@ -30,39 +31,47 @@ public class CabinetControls : MonoBehaviour
         gunLaser.SetPosition(0, gunLaser.transform.position);
         gunLaser.SetPosition(1, gunLaser.transform.position + (gunLaser.transform.forward * 2));
         Ray cabinetRay = new Ray(gunLaser.transform.position, gunLaser.transform.forward);
-        Debug.DrawRay(cabinetRay.origin, cabinetRay.direction * 10, Color.blue);
         RaycastHit cabinetHit;
         if(Physics.Raycast(cabinetRay, out cabinetHit))
         {
-            Debug.Log($"Hit {cabinetHit.collider.gameObject.name}");
             if(cabinetHit.collider == screenCollider)
             {
                 Vector3 worldPoint = cabinetHit.point;
                 Vector3 localPoint = screen.transform.InverseTransformPoint(worldPoint);
                 reticle.localPosition = localPoint;
-                Debug.Log($"Hit screen at {localPoint}");
 
                 // convert local point to camera coordinates
                 float xVal = Mathf.InverseLerp(-screenSize.x / 2, screenSize.x / 2, localPoint.x);
                 float yVal = Mathf.InverseLerp(-screenSize.y / 2, screenSize.y / 2, localPoint.y);
                 Vector3 cameraPoint = new Vector3(xVal * tex.width, yVal * tex.height, 0);
-                Debug.Log($"Ray origin = {cameraPoint}");
                 Ray cameraRay = droneCam.ScreenPointToRay(cameraPoint);
-                Debug.DrawRay(cameraRay.origin, cameraRay.direction * 100, Color.red);
-                //droneLaser.SetPosition(0, cameraRay.origin);
-                //droneLaser.SetPosition(1, cameraRay.origin + cameraRay.direction * 10);
-
+                turret.Aim(cameraRay);
             }
         }
     }
 
-    public void PressTrigger(ActivateEventArgs args)
+    public void ActivateTrigger(ActivateEventArgs args)
     {
-        Fire(args.interactorObject.handedness);
+        turret.ActivateTurret(args.interactorObject.handedness);
     }
 
-    private void Fire(InteractorHandedness handedness)
+    public void DeactivateTrigger(DeactivateEventArgs args)
     {
-        Debug.Log($"Shot fired by {handedness}");
+        turret.DeactivateTurret(args.interactorObject.handedness);
+    }
+
+    public void SelectExited(SelectExitEventArgs args)
+    {
+        turret.DeactivateTurret(args.interactorObject.handedness);
+    }
+
+    public void PressBombButton(SelectEnterEventArgs args)
+    {
+
+    }
+
+    public void PressStartButton(SelectEnterEventArgs args)
+    {
+
     }
 }
