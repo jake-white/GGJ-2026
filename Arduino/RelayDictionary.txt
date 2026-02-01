@@ -1,0 +1,37 @@
+Code, Object, Action
+a, SenderLight, On
+b, SenderLight, Off
+c, Hoop1, On
+d, Hoop1, Off
+e, Crater1, On
+f, Crater1, Off
+g, Hoop2, On
+h, Hoop2, Off
+i, Crater2, On
+j, Crater2, Off
+k, Hoop3, On
+l, Hoop3, Off
+m, Crater3, On
+n, Crater3, Off
+o, Hoop4, On
+p, Hoop4, Off
+q, Crater4, On
+r, Crater4, Off
+s, Hoop5, On
+t, Hoop5, Off
+u, Crater5, On
+v, Crater5, Off
+w, Hoop6, On
+x, Hoop6, Off
+y, Crater6, On
+z, Crater6, Off
+1, Cube, Blue Glow
+2, Cube, Red Glow
+3, Cube, X-axis Alert
+4, Cube, Y-axis Alert
+5, Cube, Z-axis Alert
+6, Cube, Off
+7, Cube, Flicker
+8, AllHoops, Flicker
+9, All, On
+10, All, Off

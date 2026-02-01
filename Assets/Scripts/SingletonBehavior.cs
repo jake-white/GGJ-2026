@@ -1,28 +1,24 @@
 using UnityEngine;
- 
-namespace CollabXR
+public abstract class SingletonBehavior<T> : MonoBehaviour where T : SingletonBehavior<T>
 {
-	public abstract class SingletonBehavior<T> : MonoBehaviour where T : SingletonBehavior<T>
+	public static T Instance { get; private set; }
+
+	protected virtual void Awake()
 	{
-		public static T Instance { get; private set; }
-
-		protected virtual void Awake()
+		if (Instance == null)
 		{
-			if (Instance == null)
-			{
-				Instance = (T)this;
-			}
-			else
-			{
-				Debug.LogWarning("More than one instance of " + GetType() + " created!");
-				Destroy(this);
-			}
+			Instance = (T)this;
 		}
-
-		protected virtual void OnDestroy()
+		else
 		{
-			if (Instance == this)
-				Instance = null;
+			Debug.LogWarning("More than one instance of " + GetType() + " created!");
+			Destroy(this);
 		}
+	}
+
+	protected virtual void OnDestroy()
+	{
+		if (Instance == this)
+			Instance = null;
 	}
 }

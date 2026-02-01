@@ -1,11 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-public class CabinetControls : MonoBehaviour
+public class CabinetControls : SingletonBehavior<CabinetControls>
 {
-    public Camera droneCam;
+    public Camera droneCam, bombCam;
     public DroneTurret turret;
     public LineRenderer gunLaser, droneLaser;
     public RectTransform reticle;
@@ -14,9 +17,11 @@ public class CabinetControls : MonoBehaviour
     public RenderTexture tex;
     public RawImage crtScreen;
     public Material shootView, bombView;
+    public InputActionReference fireLeft, fireRight;
 
     private Collider screenCollider;
     private RectTransform screenSpace;
+    public XRGrabInteractable interactable;
 
     private Vector2 screenSize;
     private bool bombingMode = false;
@@ -27,6 +32,8 @@ public class CabinetControls : MonoBehaviour
         screenCollider = screen.GetComponent<Collider>();
         screenSpace = screen.gameObject.GetComponent<RectTransform>();
         screenSize = new Vector2(screenSpace.rect.width, screenSpace.rect.height);
+        fireLeft.action.performed += ctx => BombWithButton(true);
+        fireRight.action.performed += ctx => BombWithButton(false);
     }
 
     // Update is called once per frame
@@ -72,6 +79,10 @@ public class CabinetControls : MonoBehaviour
         turret.DeactivateTurret(args.interactorObject.handedness);
     }
 
+    public void SelectEntered(SelectEnterEventArgs args)
+    {
+    }
+
     public void SelectExited(SelectExitEventArgs args)
     {
         turret.DeactivateTurret(args.interactorObject.handedness);
@@ -79,7 +90,19 @@ public class CabinetControls : MonoBehaviour
 
     public void PressBombButton(SelectEnterEventArgs args)
     {
+        turret.DropBomb();
+    }
 
+    public void BombWithButton(bool left)
+    {
+        Debug.Log("BOMBING!" + left);
+        foreach(IXRSelectInteractor interactor in interactable.interactorsSelecting)
+        {
+            if ((left && interactor.handedness == InteractorHandedness.Left) || (!left && interactor.handedness == InteractorHandedness.Right))
+            {
+                turret.DropBomb();
+            }
+        }
     }
 
     public void PressStartButton(SelectEnterEventArgs args)
@@ -89,15 +112,19 @@ public class CabinetControls : MonoBehaviour
 
     public void OnLeverBomb()
     {
-        Debug.Log("bomb");
         bombingMode = true;
         crtScreen.material = bombView;
     }
 
     public void OnLeverShoot()
     {
-        Debug.Log("shoot");
         bombingMode = false;
         crtScreen.material = shootView;
+    }
+
+    public Camera GetCurrentDroneCamera()
+    {
+        if (bombingMode) return bombCam;
+        return droneCam;
     }
 }

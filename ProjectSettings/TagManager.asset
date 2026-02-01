@@ -7,6 +7,8 @@ TagManager:
   - DroneCollider
   - BombCollider
   - ObjectiveCollider
+  - Laser
+  - MothershipCollider
   layers:
   - Default
   - TransparentFX
@@ -17,8 +19,8 @@ TagManager:
   - Turret
   - Objective
   - Bombable
-  - 
-  - 
+  - Bomb
+  - Drone
   - 
   - 
   - 

@@ -3,7 +3,22 @@ guid: 6d461569fd98a854aa5782e6a2ba0793
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cabinet
+    second: {fileID: 2100000, guid: 181e2dceb2c4f0242826ede3440d2e43, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Coins
+    second: {fileID: 2100000, guid: 33c67b3f5002f2e4aa89cef7cf08e003, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Console
+    second: {fileID: 2100000, guid: b227300a4a923d04aa18ff90da6ef4f2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

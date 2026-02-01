@@ -1,13 +1,13 @@
-using CollabXR;
 using UnityEngine;
 
 public class Drone : SingletonBehavior<Drone>
 {
     public LayerMask trackedObjectives;
-    public enum FlightState { Landed, InLandingZone, Flying }
+    public enum FlightState { Landed, Hovering, Flying }
     public FlightState state;
     Vector3 lastPosition, currentPosition;
     float averageDistanceMovedRecently;
+    bool inLandingZone;
     void Start()
     {
         lastPosition = transform.position;
@@ -26,11 +26,15 @@ public class Drone : SingletonBehavior<Drone>
         }
         float distanceMovedThisFrame = Vector3.Distance(lastPosition, currentPosition)/Time.deltaTime;
         averageDistanceMovedRecently = Mathf.Lerp(averageDistanceMovedRecently, distanceMovedThisFrame, 0.25f);
-        if (state == FlightState.InLandingZone && IsMostlyStationary())
+        if (inLandingZone && IsMostlyStationary())
         {
             state = FlightState.Landed;
         }
-        else if(state == FlightState.Landed && !IsMostlyStationary())
+         if(state == FlightState.Landed && !IsMostlyStationary())
+        {
+            state = inLandingZone ? FlightState.Hovering : FlightState.Flying;
+        }
+         if(state == FlightState.Hovering && !inLandingZone)
         {
             state = FlightState.Flying;
         }
@@ -38,11 +42,13 @@ public class Drone : SingletonBehavior<Drone>
 
     public void EnterLandingZone()
     {
-        state = FlightState.InLandingZone;
+        inLandingZone = true;
+        state = FlightState.Hovering;
     }
 
     public void ExitLandingZone()
     {
+        inLandingZone = false;
         state = FlightState.Flying;
     }
 
@@ -54,11 +60,12 @@ public class Drone : SingletonBehavior<Drone>
     public TrackedObjective ObjectiveIntersected()
     {
         Ray path = new Ray(currentPosition, lastPosition - currentPosition);
-        Debug.DrawRay(path.origin, path.direction * 100);
+        Debug.DrawRay(path.origin, path.direction);
         RaycastHit hit;
-        if(Physics.Raycast(path, out hit, 1000, trackedObjectives))
+        if(Physics.Raycast(path, out hit, Vector3.Distance(currentPosition, lastPosition), trackedObjectives))
         {
-            return hit.collider.GetComponentInParent<TrackedObjective>();
+            TrackedObjective obj = hit.collider.GetComponentInParent<TrackedObjective>();
+            return obj;
         }
         return null;
     }
@@ -69,5 +76,10 @@ public class Drone : SingletonBehavior<Drone>
         {
             other.GetComponentInParent<TrackedObjective>().EnterCollider();
         }
+    }
+
+    public Vector3 GetApproximateVelocity()
+    {
+        return currentPosition - lastPosition;
     }
 }

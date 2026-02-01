@@ -3,7 +3,37 @@ guid: db34c57098469a144af4fb3bb7edd973
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Details
+    second: {fileID: 2100000, guid: 6cba95b215a4c474d84f8dc99205916e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GunBarrels
+    second: {fileID: 2100000, guid: be5a68e4c9224214195d9d81e7d8e22c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GunBase
+    second: {fileID: 2100000, guid: cf9c58074d2766d42b3afac094acf819, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GunBody
+    second: {fileID: 2100000, guid: 91babea010844ea49a47b93b21e35d46, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GunHandle
+    second: {fileID: 2100000, guid: 0f85f42a741c6514d8055dee0538feb0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GunPeripherals
+    second: {fileID: 2100000, guid: 86e8d237035151248855fcde7bb260cf, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

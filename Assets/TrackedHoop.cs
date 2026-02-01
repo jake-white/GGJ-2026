@@ -7,9 +7,19 @@ public class TrackedHoop : TrackedObjective
 
     public override void FlyThrough()
     {
-        base.FlyThrough();
-        crater.EnableBombing();
-        Debug.Log("Flew through hoop!");
+        if (!flownThrough)
+        {
+            base.FlyThrough();
+            crater.EnableBombing();
+            Debug.Log("Flew through hoop!");
+            flownThrough = true;
+            ToggleLight(false);
+        }
+    }
+
+    public void ToggleLight(bool enabled)
+    {
+        ArduinoSend.Instance.ToggleHoop(body.RigidBodyId - OptitrackConstellationManager.Instance.HoopIdOffset, enabled);
     }
 
     public override void EnterCollider()
