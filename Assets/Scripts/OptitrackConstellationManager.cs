@@ -12,15 +12,16 @@ public class OptitrackConstellationManager : MonoBehaviour
     public TrackedHoop hoopPrefab;
     public TrackedCrater craterPrefab;
     public Transform poolingPoint;
+    public Transform droneScene;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         foreach (BombingObjective objective in objectives)
         {
-            TrackedHoop hoop = Instantiate(hoopPrefab);
+            TrackedHoop hoop = Instantiate(hoopPrefab, droneScene);
             hoop.transform.position = poolingPoint.position;
             hoop.GetComponent<OptitrackRigidBody>().RigidBodyId = objective.HoopID;
-            TrackedCrater crater = Instantiate(craterPrefab);
+            TrackedCrater crater = Instantiate(craterPrefab, droneScene);
             crater.transform.position = poolingPoint.position;
             crater.GetComponent<OptitrackRigidBody>().RigidBodyId = objective.CraterID;
             hoop.crater = crater;
