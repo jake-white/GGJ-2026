@@ -1041,7 +1041,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3234025337992745242, guid: ae4ae894755dd8f4089ab5563813e5db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.00000019247334
+      value: -0.00000029181442
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234025337992745242, guid: ae4ae894755dd8f4089ab5563813e5db, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.07500043
       objectReference: {fileID: 0}
     - target: {fileID: 3708116133953791180, guid: ae4ae894755dd8f4089ab5563813e5db, type: 3}
       propertyPath: turret
@@ -1069,7 +1073,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8545366874914853411, guid: ae4ae894755dd8f4089ab5563813e5db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.00000036135322
+      value: -0.00000029802322
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545366874914853411, guid: ae4ae894755dd8f4089ab5563813e5db, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04500032
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545366874914853411, guid: ae4ae894755dd8f4089ab5563813e5db, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000059604645
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
