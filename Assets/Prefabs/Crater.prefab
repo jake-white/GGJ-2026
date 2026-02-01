@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 2568934550784705476}
   m_Layer: 0
   m_Name: Crater
-  m_TagString: Untagged
+  m_TagString: BombCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  building: {fileID: 7824234667227255392}
 --- !u!1 &5936883943776062736
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,5 +237,10 @@ PrefabInstance:
 --- !u!4 &7484581624853612762 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dcbf8dc46ce4aba458da79ea0da0e41c, type: 3}
+  m_PrefabInstance: {fileID: 6941219278304423729}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7824234667227255392 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dcbf8dc46ce4aba458da79ea0da0e41c, type: 3}
   m_PrefabInstance: {fileID: 6941219278304423729}
   m_PrefabAsset: {fileID: 0}

@@ -1,11 +1,12 @@
+using CollabXR;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-public class CabinetControls : MonoBehaviour
+public class CabinetControls : SingletonBehavior<CabinetControls>
 {
-    public Camera droneCam;
+    public Camera droneCam, bombCam;
     public DroneTurret turret;
     public LineRenderer gunLaser, droneLaser;
     public RectTransform reticle;
@@ -79,7 +80,7 @@ public class CabinetControls : MonoBehaviour
 
     public void PressBombButton(SelectEnterEventArgs args)
     {
-
+        turret.DropBomb();
     }
 
     public void PressStartButton(SelectEnterEventArgs args)
@@ -99,5 +100,11 @@ public class CabinetControls : MonoBehaviour
         Debug.Log("shoot");
         bombingMode = false;
         crtScreen.material = shootView;
+    }
+
+    public Camera GetCurrentDroneCamera()
+    {
+        if (bombingMode) return bombCam;
+        return droneCam;
     }
 }

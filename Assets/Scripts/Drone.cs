@@ -70,4 +70,9 @@ public class Drone : SingletonBehavior<Drone>
             other.GetComponentInParent<TrackedObjective>().EnterCollider();
         }
     }
+
+    public Vector3 GetApproximateVelocity()
+    {
+        return currentPosition - lastPosition;
+    }
 }

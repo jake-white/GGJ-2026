@@ -4,6 +4,7 @@ public class TrackedCrater : TrackedObjective
 {
     public enum CraterState { Waiting, Ready, Destroyed };
     public CraterState state;
+    public GameObject building;
 
     public void EnableBombing()
     {
@@ -12,5 +13,6 @@ public class TrackedCrater : TrackedObjective
     public void GetBombed()
     {
         if (state == CraterState.Waiting) state = CraterState.Destroyed;
+        building.SetActive(false);
     }
 }

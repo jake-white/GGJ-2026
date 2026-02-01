@@ -3,14 +3,15 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class DroneTurret : MonoBehaviour
 {
-    public Transform leftLaserOrigin, rightLaserOrigin;
-    public GameObject laserPrefab;
+    public Transform leftLaserOrigin, rightLaserOrigin, bombOrigin;
+    public GameObject laserPrefab, bombPrefab;
     public float projectileSpeed = 10.0f;
-    public float projectileInterval = 0.5f;
+    public float projectileInterval = 0.5f, bombingInterval = 2.0f;
     private Ray currentAim;
 
     bool leftFiring, rightFiring;
     float lastLeftFire, lastRightFire;
+    float lastBombing;
 
     private void Update()
     {
@@ -70,12 +71,21 @@ public class DroneTurret : MonoBehaviour
         newLastFire = lastFire;
         if (fireNow)
         {
-            Debug.Log("Fire now!");
             GameObject newProjectile = Instantiate(laserPrefab);
             newProjectile.transform.position = origin.position;
             newProjectile.transform.forward = currentAim.direction;
             newProjectile.GetComponent<Rigidbody>().linearVelocity = currentAim.direction * projectileSpeed;
             newLastFire = Time.time;
+        }
+    }
+
+    public void DropBomb()
+    {
+        if(Time.time - lastBombing > bombingInterval)
+        {
+            GameObject newBomb = Instantiate(bombPrefab);
+            newBomb.transform.position = bombOrigin.position;
+            lastBombing = Time.time;
         }
     }
 }
