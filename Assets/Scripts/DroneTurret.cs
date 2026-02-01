@@ -85,6 +85,7 @@ public class DroneTurret : MonoBehaviour
         {
             GameObject newBomb = Instantiate(bombPrefab);
             newBomb.transform.position = bombOrigin.position;
+            newBomb.GetComponent<Rigidbody>().linearVelocity = Drone.Instance.GetApproximateVelocity();
             lastBombing = Time.time;
         }
     }
