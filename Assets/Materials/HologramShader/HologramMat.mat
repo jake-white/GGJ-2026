@@ -58,7 +58,7 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _CastShadows: 1
-    - _Cull: 2
+    - _Cull: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _Fresnel_Power: 0.55
@@ -72,6 +72,6 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Fresnel_Color: {r: 0.9042729, g: 1.4096425, b: 12.780392, a: 1}
+    - _Fresnel_Color: {r: 0.41076523, g: 0.6871534, b: 6.6986303, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -3,5 +3,5 @@ using UnityEngine;
 
 public class FXManager : SingletonBehavior<FXManager>
 {
-    public GameObject explosion;
+    public GameObject explosion, smallExplosion;
 }

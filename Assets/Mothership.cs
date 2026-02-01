@@ -1,12 +1,15 @@
 using CollabXR;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Mothership : SingletonBehavior<Mothership>
 {
-    public Collider xAxisA, xAxisB, yAxisA, yAxisB, zAxisA, zAxisB;
+    public List<MothershipAxisCollider> axisColliders;
     public enum MotherState { Shielded, ShieldsBroken, Dead }
     public enum MothershipAxis { None, X, Y, Z }
     public MotherState state;
+
+    public Material shieldHealthy, shieldDamaged;
 
     private MothershipAxis nextExpectedAxis = MothershipAxis.None;
     private MothershipAxisCollider justFlownThrough = null;
@@ -15,17 +18,23 @@ public class Mothership : SingletonBehavior<Mothership>
 
     private void Start()
     {
-        ArduinoSend.Instance.TriggerMothershipMode(1);
+        ArduinoSend.Instance.TriggerMothershipMode(0);
     }
 
     public void BreakShields()
     {
         state = MotherState.ShieldsBroken;
-        ArduinoSend.Instance.TriggerMothershipMode(2);
+        foreach(MothershipAxisCollider c in axisColliders)
+        {
+            c.BecomeVulnerable();
+        }
+
+        ArduinoSend.Instance.TriggerMothershipMode(1);
     }
 
     public void FlyThroughAxis(MothershipAxisCollider collider)
     {
+        Debug.Log($"{collider.gameObject.name}, {collider.axis}");
         if (state == MotherState.ShieldsBroken)
         {
             if (collider.axis != nextExpectedAxis)
@@ -47,9 +56,34 @@ public class Mothership : SingletonBehavior<Mothership>
         }
     }
 
-    public void AxisDestroyed(MothershipAxis axis)
+    public void AxisDisabled(MothershipAxis axis)
     {
-        nextExpectedAxis = axis;
+        if (nextExpectedAxis == MothershipAxis.None)
+        {
+            Debug.Log("Axis disabled: " + axis);
+            nextExpectedAxis = axis;
+            switch (axis)
+            {
+                case MothershipAxis.X:
+                    ArduinoSend.Instance.TriggerMothershipMode(2);
+                    break;
+                case MothershipAxis.Y:
+                    ArduinoSend.Instance.TriggerMothershipMode(3);
+                    break;
+                case MothershipAxis.Z:
+                    ArduinoSend.Instance.TriggerMothershipMode(4);
+                    break;
+            }
+
+            foreach (MothershipAxisCollider c in axisColliders)
+            {
+                c.SetTrigger(true);
+                if (c.axis != axis)
+                {
+                    c.RestoreHP();
+                }
+            }
+        }
     }
 
     public void ResetExpectedAxis()
@@ -63,18 +97,18 @@ public class Mothership : SingletonBehavior<Mothership>
         {
             case MothershipAxis.X:
                 xComplete = true;
-                xAxisA.enabled = false;
-                xAxisB.enabled = false;
+                axisColliders[0].DestroyAxis();
+                axisColliders[1].DestroyAxis();
                 break;
             case MothershipAxis.Y:
                 yComplete = true;
-                yAxisA.enabled = false;
-                yAxisB.enabled = false;
+                axisColliders[2].DestroyAxis();
+                axisColliders[3].DestroyAxis();
                 break;
             case MothershipAxis.Z:
                 zComplete = true;
-                zAxisA.enabled = false;
-                zAxisB.enabled = false;
+                axisColliders[4].DestroyAxis();
+                axisColliders[5].DestroyAxis();
                 break;
         }
 
@@ -82,6 +116,11 @@ public class Mothership : SingletonBehavior<Mothership>
         {
             state = MotherState.Dead;
             SequenceManager.Instance.MothershipDestroyed();
+            ArduinoSend.Instance.TriggerMothershipMode(5);
+        }
+        else
+        {
+            BreakShields();
         }
     }
 }

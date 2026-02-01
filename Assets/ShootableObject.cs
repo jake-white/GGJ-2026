@@ -8,6 +8,7 @@ public class ShootableObject : MonoBehaviour
         {
             Instantiate(FXManager.Instance.explosion, transform.position, Quaternion.identity);
             GameObject.Destroy(gameObject);
+            GameObject.Destroy(other.gameObject);
         }
     }
 }
