@@ -105,7 +105,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4410591399922465241}
   - component: {fileID: 4574532615433512241}
-  - component: {fileID: 8539847657908401207}
   m_Layer: 7
   m_Name: Collider A
   m_TagString: ObjectiveCollider
@@ -150,19 +149,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &8539847657908401207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7474346635916170957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abf609403a7684345b69146337325cc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objective: {fileID: 2662454125904468658}
 --- !u!1 &8017577912243491623
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,6 +229,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5335e9b1e03e3c040ae7ace14517fd73, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 94fecb8f1582cdf47ac35cdec9390afb, type: 2}
     - target: {fileID: 919132149155446097, guid: 5335e9b1e03e3c040ae7ace14517fd73, type: 3}
       propertyPath: m_Name
       value: Ring

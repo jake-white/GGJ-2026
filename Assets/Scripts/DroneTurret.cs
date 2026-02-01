@@ -5,6 +5,7 @@ public class DroneTurret : MonoBehaviour
 {
     public LineRenderer leftLaser, rightLaser;
     public Transform leftLaserOrigin, rightLaserOrigin;
+    public GameObject laserPrefab;
     private Ray currentAim;
 
     bool leftFiring, rightFiring;
@@ -62,11 +63,6 @@ public class DroneTurret : MonoBehaviour
         bool fireNow = false;
         float timeSince = Time.time - lastFire;
 
-        if (timeSince > 0.2)
-        {
-            laser.enabled = false;
-        }
-
         if (isFiring)
         {
             if (timeSince > 0.5)
@@ -79,7 +75,7 @@ public class DroneTurret : MonoBehaviour
         if (fireNow)
         {
             Debug.Log("Fire now!");
-            laser.enabled = true;
+            GameObject newProjectile = Instantiate(laserPrefab);
             newLastFire = Time.time;
         }
     }
