@@ -10,19 +10,18 @@
 #include <FastLED.h>
 
 #define LED_PIN     2
-#define NUM_LEDS    135
-#define NUM_SIDE    30
-#define NUM_LQ      45
-#define NUM_HQ      90
+#define NUM_LEDS    135 //Total number of LEDs in two hoops
+#define NUM_LQ      45  //number of LEDs in low quality hoop (30led/m)
+#define NUM_HQ      90  //number of LEDs in high quality hoop (60led/m)
 
-#define BRIGHTNESS  100
+#define BRIGHTNESS  100 //Brightness setting out of 255 Max
 #define LED_TYPE    WS2812
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
 
 #define UPDATES_PER_SECOND 100
 
-bool ledOn=false;
+bool ledOn=false; //Status LED
 
 #define STATUS_LED BUILTIN_LED
 
@@ -36,10 +35,10 @@ TBlendType    BlendingLQ;
 extern CRGBPalette16 myRedWhiteBluePalette;
 extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
 
-bool ledOnA;
-bool ledOnB;
+bool ledOnA; //Status LED
+bool ledOnB; //Status LED
 
-// Set your new MAC Address
+// Set your new MAC Address. Only necesary if you need to manually set a mac address to something
 //uint8_t newMACAddress[] = {0x05, 0xCC, 0xDF, 0x36, 0x97, 0x71};
 
 // Structure example to receive data
@@ -55,27 +54,26 @@ test_struct myData;
 void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
   memcpy(&myData, incomingData, sizeof(myData));
 
-
-
+    // Switch statement for handling different lighting case scenarios
     switch (myData.x) {
-      case 0:
-        ledOnA = false; // Start with the light off  
+      case 0: // Turn off Low Quality Hoop
+        ledOnA = false; 
         ledOn=false;
         fill_solid( PaletteLQ, 16, CRGB::Black);
         Serial.println("received 0 signal");
         break;
-      case 1:
+      case 1: // Turn on Low Quality Hoop, set to black/white spinning
         ledOnA = true;
         ledOn=true;
         SetupBlackAndWhiteStripedPalette(); 
         Serial.println("received 1 signal");
         break;
-      case 2:
+      case 2: //Turn off High quality Hoop
         ledOnB = false;
         fill_solid( PaletteHQ, 16, CRGB::Black);
         Serial.println("received 2 signal");
         break;
-      case 3:
+      case 3: //Turn on High quality Hoop, set to rainbow color spinning
         ledOnB = true;
         PaletteHQ = RainbowStripeColors_p;
         Serial.println("received 3 signal");
